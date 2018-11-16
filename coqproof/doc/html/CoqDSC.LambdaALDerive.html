@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<link href="coqdocjs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="config.js"></script>
+<script type="text/javascript" src="coqdocjs.js"></script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+
+<body onload="document.getElementById('content').focus()">
+  <div id="header">
+    <span class="left">
+      <span class="modulename"> <script> document.write(document.title) </script> </span>
+    </span>
+
+    <span class="button" id="toggle-proofs"></span>
+
+    <span class="right">
+      <a href="./index.html">Project Page</a>
+      <a href="./indexpage.html"> Index </a>
+      <a href="./toc.html"> Table of Contents </a>
+    </span>
+</div>
+    <div id="content" tabindex="-1" onblur="document.getElementById('content').focus()">
+<div id="main">
+<h1 class="libtitle">CoqDSC.LambdaALDerive</h1>
+
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.Misc.html#"><span class="id" title="library">Misc</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.Constants.html#"><span class="id" title="library">Constants</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaAL.html#"><span class="id" title="library">LambdaAL</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaALValues.html#"><span class="id" title="library">LambdaALValues</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab111"></a><h1 class="section">Static derivatives form  base terms</h1>
+
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+   In this module, we implement a program transformation <span class="inlinecode"><a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a></span> that
+   turns a base term into its derivative change term, mimicking the
+   transformation introduced by Cai et al. This transformation is
+   reversible as witnessed by the function <span class="inlinecode"><a class="idref" href="CoqDSC.LambdaALDerive.html#underive"><span class="id" title="definition">underive</span></a></span> and its lemmas.
+
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+ <span class="inlinecode"><a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a></span> <span class="inlinecode"><a class="idref" href="CoqDSC.Environment.html#t"><span class="id" title="definition">t</span></a></span> turns a base term <span class="inlinecode"><a class="idref" href="CoqDSC.Environment.html#t"><span class="id" title="definition">t</span></a></span> into its derivative change term. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Fixpoint</span> <a name="derive"><span class="id" title="definition">derive</span></a> (<span class="id" title="var">t</span> : <a class="idref" href="CoqDSC.LambdaAL.html#term"><span class="id" title="inductive">term</span></a>) : <a class="idref" href="CoqDSC.LambdaAL.html#dterm"><span class="id" title="inductive">dterm</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="CoqDSC.LambdaALDerive.html#t"><span class="id" title="variable">t</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaAL.html#Var"><span class="id" title="constructor">Var</span></a> <span class="id" title="var">x</span> =&gt; <a class="idref" href="CoqDSC.LambdaAL.html#dVar"><span class="id" title="constructor">dVar</span></a> (<a class="idref" href="CoqDSC.LambdaAL.html#d"><span class="id" title="constructor">d</span></a> <span class="id" title="var">x</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaAL.html#Def"><span class="id" title="constructor">Def</span></a> <span class="id" title="var">f</span> <span class="id" title="var">x</span> <span class="id" title="var">t</span> =&gt; <a class="idref" href="CoqDSC.LambdaAL.html#dDef"><span class="id" title="constructor">dDef</span></a> <span class="id" title="var">f</span> <span class="id" title="var">x</span> (<a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a> <a class="idref" href="CoqDSC.LambdaALDerive.html#t"><span class="id" title="variable">t</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaAL.html#DefTuple"><span class="id" title="constructor">DefTuple</span></a> <span class="id" title="var">xs</span> <span class="id" title="var">t</span> =&gt; <a class="idref" href="CoqDSC.LambdaAL.html#dDefTuple"><span class="id" title="constructor">dDefTuple</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#map"><span class="id" title="definition">List.map</span></a> <a class="idref" href="CoqDSC.LambdaAL.html#d"><span class="id" title="constructor">d</span></a> <span class="id" title="var">xs</span>) (<a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a> <a class="idref" href="CoqDSC.LambdaALDerive.html#t"><span class="id" title="variable">t</span></a>)<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><a class="idref" href="CoqDSC.LambdaALDerive.html#underive"><span class="id" title="definition">underive</span></a></span> <span class="inlinecode"><a class="idref" href="CoqDSC.Environment.html#t"><span class="id" title="definition">t</span></a></span> 
+</div>
+<div class="code">
+<span class="id" title="keyword">Fixpoint</span> <a name="underive"><span class="id" title="definition">underive</span></a> (<span class="id" title="var">dt</span> : <a class="idref" href="CoqDSC.LambdaAL.html#dterm"><span class="id" title="inductive">dterm</span></a>) : <a class="idref" href="CoqDSC.LambdaAL.html#term"><span class="id" title="inductive">term</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="CoqDSC.LambdaALDerive.html#dt"><span class="id" title="variable">dt</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaAL.html#dVar"><span class="id" title="constructor">dVar</span></a> (<a class="idref" href="CoqDSC.LambdaAL.html#d"><span class="id" title="constructor">d</span></a> <span class="id" title="var">x</span>) =&gt; <a class="idref" href="CoqDSC.LambdaAL.html#Var"><span class="id" title="constructor">Var</span></a> <span class="id" title="var">x</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaAL.html#dDef"><span class="id" title="constructor">dDef</span></a> <span class="id" title="var">f</span> <span class="id" title="var">x</span> <span class="id" title="var">t</span> =&gt; <a class="idref" href="CoqDSC.LambdaAL.html#Def"><span class="id" title="constructor">Def</span></a> <span class="id" title="var">f</span> <span class="id" title="var">x</span> (<a class="idref" href="CoqDSC.LambdaALDerive.html#underive"><span class="id" title="definition">underive</span></a> <span class="id" title="var">t</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaAL.html#dDefTuple"><span class="id" title="constructor">dDefTuple</span></a> <span class="id" title="var">xs</span> <span class="id" title="var">t</span> =&gt; <a class="idref" href="CoqDSC.LambdaAL.html#DefTuple"><span class="id" title="constructor">DefTuple</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#map"><span class="id" title="definition">List.map</span></a> <a class="idref" href="CoqDSC.LambdaAL.html#und"><span class="id" title="definition">und</span></a> <span class="id" title="var">xs</span>) (<a class="idref" href="CoqDSC.LambdaALDerive.html#underive"><span class="id" title="definition">underive</span></a> <span class="id" title="var">t</span>)<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="derive_underive"><span class="id" title="lemma">derive_underive</span></a>:<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">forall</span> <span class="id" title="var">dt</span>, <a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a> (<a class="idref" href="CoqDSC.LambdaALDerive.html#underive"><span class="id" title="definition">underive</span></a> <a class="idref" href="CoqDSC.LambdaALDerive.html#dt"><span class="id" title="variable">dt</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="CoqDSC.LambdaALDerive.html#dt"><span class="id" title="variable">dt</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">dt</span>; <span class="id" title="tactic">simpl</span>; <span class="id" title="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">destruct</span> <span class="id" title="var">d</span>. <span class="id" title="tactic">auto</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">IHdt</span>. <span class="id" title="tactic">auto</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">IHdt</span>. <span class="id" title="tactic">auto</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="CoqDSC.Misc.html#map_map"><span class="id" title="lemma">map_map</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">erewrite</span> <a class="idref" href="CoqDSC.Misc.html#map_equiv"><span class="id" title="lemma">map_equiv</span></a> <span class="id" title="keyword">with</span> (<span class="id" title="var">g</span> := <span class="id" title="keyword">fun</span> <span class="id" title="var">x</span> =&gt; <a class="idref" href="CoqDSC.LambdaALDerive.html#x"><span class="id" title="variable">x</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="CoqDSC.Misc.html#map_id"><span class="id" title="lemma">map_id</span></a>. <span class="id" title="tactic">auto</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="CoqDSC.LambdaAL.html#d_und"><span class="id" title="lemma">d_und</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="underive_derive"><span class="id" title="lemma">underive_derive</span></a>:<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">forall</span> <span class="id" title="var">t</span>, <a class="idref" href="CoqDSC.LambdaALDerive.html#underive"><span class="id" title="definition">underive</span></a> (<a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a> <a class="idref" href="CoqDSC.LambdaALDerive.html#t"><span class="id" title="variable">t</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="CoqDSC.LambdaALDerive.html#t"><span class="id" title="variable">t</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">t</span>; <span class="id" title="tactic">simpl</span>; <span class="id" title="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">IHt</span>. <span class="id" title="tactic">auto</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="CoqDSC.Misc.html#map_map"><span class="id" title="lemma">map_map</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">erewrite</span> <a class="idref" href="CoqDSC.Misc.html#map_equiv"><span class="id" title="lemma">map_equiv</span></a> <span class="id" title="keyword">with</span> (<span class="id" title="var">g</span> := <span class="id" title="keyword">fun</span> <span class="id" title="var">x</span> =&gt; <a class="idref" href="CoqDSC.LambdaALDerive.html#x"><span class="id" title="variable">x</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="CoqDSC.Misc.html#map_id"><span class="id" title="lemma">map_id</span></a>. <span class="id" title="tactic">rewrite</span> <span class="id" title="var">IHt</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">auto</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="CoqDSC.LambdaAL.html#und_d"><span class="id" title="lemma">und_d</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab112"></a><h4 class="section">An other implementation for nil changes</h4>
+
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+    Instead of using a dedicated constructor <span class="inlinecode"><span class="id" title="var">dNil</span></span>, we could actually
+    have implemented a nil change by means of other constructors.
+
+<div class="paragraph"> </div>
+
+    The case for <span class="inlinecode"><a class="idref" href="CoqDSC.LambdaALValues.html#Closure"><span class="id" title="constructor">Closure</span></a></span> in <span class="inlinecode"><a class="idref" href="CoqDSC.LambdaALDerive.html#dNil'"><span class="id" title="definition">dNil'</span></a></span> is using <span class="inlinecode"><a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a></span> since
+    derivatives are nil function changes.
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="nil_literal"><span class="id" title="definition">nil_literal</span></a> <span class="id" title="var">l</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="CoqDSC.LambdaALDerive.html#l"><span class="id" title="variable">l</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.Constants.html#Nat"><span class="id" title="constructor">Nat</span></a> <span class="id" title="var">n</span> =&gt; <a class="idref" href="CoqDSC.Constants.html#dPos"><span class="id" title="constructor">dPos</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#O"><span class="id" title="constructor">O</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Fixpoint</span> <a name="dNil'"><span class="id" title="definition">dNil'</span></a> <span class="id" title="var">v</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="CoqDSC.LambdaALDerive.html#v"><span class="id" title="variable">v</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaALValues.html#Closure"><span class="id" title="constructor">Closure</span></a> <span class="id" title="var">vs</span> <span class="id" title="var">t</span> =&gt; <a class="idref" href="CoqDSC.LambdaALValues.html#dClosure"><span class="id" title="constructor">dClosure</span></a> (<a class="idref" href="CoqDSC.LambdaALDerive.html#dNilpdenv"><span class="id" title="definition">dNilpdenv</span></a> <span class="id" title="var">vs</span>) (<a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a> <span class="id" title="var">t</span>)<br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaALValues.html#Tuple"><span class="id" title="constructor">Tuple</span></a> <span class="id" title="var">vs</span> =&gt; <a class="idref" href="CoqDSC.LambdaALValues.html#dTuple"><span class="id" title="constructor">dTuple</span></a> (<a class="idref" href="CoqDSC.LambdaALDerive.html#dNilpldvalues"><span class="id" title="definition">dNilpldvalues</span></a> <span class="id" title="var">vs</span>)<br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaALValues.html#Literal"><span class="id" title="constructor">Literal</span></a> <span class="id" title="var">l</span> =&gt; <a class="idref" href="CoqDSC.LambdaALValues.html#dLiteral"><span class="id" title="constructor">dLiteral</span></a> (<a class="idref" href="CoqDSC.LambdaALDerive.html#nil_literal"><span class="id" title="definition">nil_literal</span></a> <span class="id" title="var">l</span>)<br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaALValues.html#Primitive"><span class="id" title="constructor">Primitive</span></a> <span class="id" title="var">p</span> =&gt; <a class="idref" href="CoqDSC.LambdaALValues.html#dPrimitiveNil"><span class="id" title="constructor">dPrimitiveNil</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+<span class="id" title="keyword">with</span> <a name="dNilpdenv"><span class="id" title="definition">dNilpdenv</span></a> <span class="id" title="var">vs</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="CoqDSC.LambdaALDerive.html#vs"><span class="id" title="variable">vs</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaALValues.html#VNil"><span class="id" title="constructor">VNil</span></a> =&gt;  <a class="idref" href="CoqDSC.LambdaALValues.html#CDNil"><span class="id" title="constructor">CDNil</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaALValues.html#VCons"><span class="id" title="constructor">VCons</span></a> <span class="id" title="var">v</span> <span class="id" title="var">vs</span> =&gt; <a class="idref" href="CoqDSC.LambdaALValues.html#CDCons"><span class="id" title="constructor">CDCons</span></a> <span class="id" title="var">v</span> (<a class="idref" href="CoqDSC.LambdaALDerive.html#dNil'"><span class="id" title="definition">dNil'</span></a> <span class="id" title="var">v</span>) (<a class="idref" href="CoqDSC.LambdaALDerive.html#dNilpdenv"><span class="id" title="definition">dNilpdenv</span></a> <a class="idref" href="CoqDSC.LambdaALDerive.html#vs"><span class="id" title="variable">vs</span></a>)<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+<span class="id" title="keyword">with</span> <a name="dNilpldvalues"><span class="id" title="definition">dNilpldvalues</span></a> <span class="id" title="var">vs</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="CoqDSC.LambdaALDerive.html#vs"><span class="id" title="variable">vs</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaALValues.html#VNil"><span class="id" title="constructor">VNil</span></a> =&gt; <a class="idref" href="CoqDSC.LambdaALValues.html#DVNil"><span class="id" title="constructor">DVNil</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.LambdaALValues.html#VCons"><span class="id" title="constructor">VCons</span></a> <span class="id" title="var">v</span> <span class="id" title="var">vs</span> =&gt; <a class="idref" href="CoqDSC.LambdaALValues.html#DVCons"><span class="id" title="constructor">DVCons</span></a> (<a class="idref" href="CoqDSC.LambdaALDerive.html#dNil'"><span class="id" title="definition">dNil'</span></a> <span class="id" title="var">v</span>) (<a class="idref" href="CoqDSC.LambdaALDerive.html#dNilpldvalues"><span class="id" title="definition">dNilpldvalues</span></a> <a class="idref" href="CoqDSC.LambdaALDerive.html#vs"><span class="id" title="variable">vs</span></a>)<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+</div>
+    </div>
+    <div id="footer">
+      Generated by <a href="http://coq.inria.fr/">coqdoc</a> and improved with <a href="https://github.com/tebbi/coqdocjs">CoqdocJS</a>
+    </div>
+  </div>
+  </body>
+</html>
