@@ -1,0 +1,29 @@
+-R . CoqDSC
+-I .
+LibTactics.v
+Crush.v
+Index.v
+ErrorMonad.v
+Misc.v
+Environment.v
+Constants.v
+LambdaAL.v
+LambdaALValues.v
+LambdaALOperationalSemantics.v
+LambdaALOperationalSemanticsPrimitives.v
+LambdaALDerive.v
+LambdaALOperationalSemanticsProofs.v
+LambdaALValidity.v
+LambdaALEnvValidity.v
+LambdaALFundamentalProperty.v
+LambdaALDeriveProofs.v
+ILambdaAL.v
+ILambdaALValues.v
+ILambdaALOperationalSemanticsPrimitives.v
+ILambdaALOperationalSemantics.v
+ILambdaALDerive.v
+ILambdaALOperationalSemanticsProofs.v
+ILambdaALCTSProofs.v
+ILambdaALDeriveProofs.v
+ILambdaALExtensionWithCaches.v
+Overview.v
