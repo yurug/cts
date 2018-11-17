@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<link href="coqdocjs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="config.js"></script>
+<script type="text/javascript" src="coqdocjs.js"></script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+
+<body onload="document.getElementById('content').focus()">
+  <div id="header">
+    <span class="left">
+      <span class="modulename"> <script> document.write(document.title) </script> </span>
+    </span>
+
+    <span class="button" id="toggle-proofs"></span>
+
+    <span class="right">
+      <a href="./index.html">Project Page</a>
+      <a href="./indexpage.html"> Index </a>
+      <a href="./toc.html"> Table of Contents </a>
+    </span>
+</div>
+    <div id="content" tabindex="-1" onblur="document.getElementById('content').focus()">
+<div id="main">
+<h1 class="libtitle">CoqDSC.LambdaALOperationalSemanticsPrimitives</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab109"></a><h1 class="section">Semantics of primitives</h1>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Equations.Equations</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#"><span class="id" title="library">List</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.omega.Omega.html#"><span class="id" title="library">Omega</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.Index.html#"><span class="id" title="library">Index</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaAL.html#"><span class="id" title="library">LambdaAL</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.Constants.html#"><span class="id" title="library">Constants</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaALValues.html#"><span class="id" title="library">LambdaALValues</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.ErrorMonad.html#"><span class="id" title="library">ErrorMonad</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.Environment.html#"><span class="id" title="library">Environment</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaALDerive.html#"><span class="id" title="library">LambdaALDerive</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab110"></a><h4 class="section">Evaluation of primitives</h4>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Equations</span> <a name="eval_add"><span class="id" title="definition">eval_add</span></a> (<span class="id" title="var">a</span> : <a class="idref" href="CoqDSC.LambdaALValues.html#value"><span class="id" title="inductive">value</span></a>) : <a class="idref" href="CoqDSC.ErrorMonad.html#t"><span class="id" title="definition">ErrorMonad.t</span></a> <a class="idref" href="CoqDSC.LambdaALValues.html#value"><span class="id" title="inductive">value</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#eval_add"><span class="id" title="definition">eval_add</span></a> (<a class="idref" href="CoqDSC.LambdaALValues.html#Tuple"><span class="id" title="constructor">Tuple</span></a> <a class="idref" href="CoqDSC.LambdaALValues.html#aa7416582a73d46fbc6d2ef22dbe1b96"><span class="id" title="notation">[@</span></a> <a class="idref" href="CoqDSC.LambdaALValues.html#Literal"><span class="id" title="constructor">Literal</span></a> (<a class="idref" href="CoqDSC.Constants.html#Nat"><span class="id" title="constructor">Nat</span></a> <span class="id" title="var">x</span>)<a class="idref" href="CoqDSC.LambdaALValues.html#aa7416582a73d46fbc6d2ef22dbe1b96"><span class="id" title="notation">;</span></a> <a class="idref" href="CoqDSC.LambdaALValues.html#Literal"><span class="id" title="constructor">Literal</span></a> (<a class="idref" href="CoqDSC.Constants.html#Nat"><span class="id" title="constructor">Nat</span></a> <span class="id" title="var">y</span>) <a class="idref" href="CoqDSC.LambdaALValues.html#aa7416582a73d46fbc6d2ef22dbe1b96"><span class="id" title="notation">]</span></a>) := <a class="idref" href="CoqDSC.ErrorMonad.html#ret"><span class="id" title="definition">ret</span></a> (<a class="idref" href="CoqDSC.LambdaALValues.html#Literal"><span class="id" title="constructor">Literal</span></a> (<a class="idref" href="CoqDSC.Constants.html#Nat"><span class="id" title="constructor">Nat</span></a> (<span class="id" title="var">x</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Peano.html#b3eea360671e1b32b18a26e15b3aace3"><span class="id" title="notation">+</span></a> <span class="id" title="var">y</span>)));<br/>
+&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#eval_add"><span class="id" title="definition">eval_add</span></a> <span class="id" title="var">_</span> := <a class="idref" href="CoqDSC.ErrorMonad.html#error"><span class="id" title="definition">error</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Equations</span> <a name="eval_push"><span class="id" title="definition">eval_push</span></a> (<span class="id" title="var">a</span> : <a class="idref" href="CoqDSC.LambdaALValues.html#value"><span class="id" title="inductive">value</span></a>) : <a class="idref" href="CoqDSC.ErrorMonad.html#t"><span class="id" title="definition">ErrorMonad.t</span></a> <a class="idref" href="CoqDSC.LambdaALValues.html#value"><span class="id" title="inductive">value</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#eval_push"><span class="id" title="definition">eval_push</span></a> (<a class="idref" href="CoqDSC.LambdaALValues.html#Tuple"><span class="id" title="constructor">Tuple</span></a> <a class="idref" href="CoqDSC.LambdaALValues.html#aa7416582a73d46fbc6d2ef22dbe1b96"><span class="id" title="notation">[@</span></a> <a class="idref" href="CoqDSC.LambdaALValues.html#Closure"><span class="id" title="constructor">Closure</span></a> <span class="id" title="var">env</span> <span class="id" title="var">t</span><a class="idref" href="CoqDSC.LambdaALValues.html#aa7416582a73d46fbc6d2ef22dbe1b96"><span class="id" title="notation">;</span></a> <span class="id" title="var">v</span> <a class="idref" href="CoqDSC.LambdaALValues.html#aa7416582a73d46fbc6d2ef22dbe1b96"><span class="id" title="notation">]</span></a>) := <a class="idref" href="CoqDSC.ErrorMonad.html#ret"><span class="id" title="definition">ret</span></a> (<a class="idref" href="CoqDSC.LambdaALValues.html#Closure"><span class="id" title="constructor">Closure</span></a> (<a class="idref" href="CoqDSC.LambdaALValues.html#VCons"><span class="id" title="constructor">VCons</span></a> <span class="id" title="var">v</span> <span class="id" title="var">env</span>) <span class="id" title="var">t</span>);<br/>
+&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#eval_push"><span class="id" title="definition">eval_push</span></a> <span class="id" title="var">_</span> := <a class="idref" href="CoqDSC.ErrorMonad.html#error"><span class="id" title="definition">error</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Equations</span> <a name="eval_curry"><span class="id" title="definition">eval_curry</span></a> (<span class="id" title="var">a</span> : <a class="idref" href="CoqDSC.LambdaALValues.html#value"><span class="id" title="inductive">value</span></a>) : <a class="idref" href="CoqDSC.ErrorMonad.html#t"><span class="id" title="definition">ErrorMonad.t</span></a> <a class="idref" href="CoqDSC.LambdaALValues.html#value"><span class="id" title="inductive">value</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#eval_curry"><span class="id" title="definition">eval_curry</span></a> (<a class="idref" href="CoqDSC.LambdaALValues.html#Closure"><span class="id" title="constructor">Closure</span></a> <span class="id" title="var">env</span> <span class="id" title="var">t</span>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">c</span> := <a class="idref" href="CoqDSC.LambdaALValues.html#Closure"><span class="id" title="constructor">Closure</span></a> <span class="id" title="var">env</span> <span class="id" title="var">t</span> <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">cf</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALValues.html#Closure"><span class="id" title="constructor">Closure</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="CoqDSC.LambdaALValues.html#values_of_list"><span class="id" title="definition">values_of_list</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#64ee52ab9627fca8d637e2f1207a2990"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#64ee52ab9627fca8d637e2f1207a2990"><span class="id" title="notation">]</span></a>) (<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaAL.html#DefTuple"><span class="id" title="constructor">DefTuple</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 1<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">;</span></a> <a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 0 <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">]</span></a> (<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaAL.html#Def"><span class="id" title="constructor">Def</span></a> (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 3) (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 0) (<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaAL.html#Var"><span class="id" title="constructor">Var</span></a> (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 0)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;closure&nbsp;cf&nbsp;has&nbsp;environment&nbsp;(f&nbsp;=&nbsp;c),&nbsp;but&nbsp;the&nbsp;call&nbsp;to&nbsp;push&nbsp;below<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;turns&nbsp;that&nbsp;into&nbsp;(x&nbsp;-&nbsp;vx;&nbsp;f&nbsp;=&nbsp;c).&nbsp;Its&nbsp;body&nbsp;is&nbsp;then:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lam&nbsp;y.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;z&nbsp;=&nbsp;(x;&nbsp;y)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;w&nbsp;=&nbsp;(f;&nbsp;z)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;w<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.ErrorMonad.html#ret"><span class="id" title="definition">ret</span></a> (<a class="idref" href="CoqDSC.LambdaALValues.html#Closure"><span class="id" title="constructor">Closure</span></a> (<a class="idref" href="CoqDSC.LambdaALValues.html#values_of_list"><span class="id" title="definition">values_of_list</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#cf"><span class="id" title="variable">cf</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">;</span></a> <a class="idref" href="CoqDSC.LambdaALValues.html#Primitive"><span class="id" title="constructor">Primitive</span></a> <a class="idref" href="CoqDSC.Constants.html#Push"><span class="id" title="constructor">Push</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">]</span></a>) (<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaAL.html#DefTuple"><span class="id" title="constructor">DefTuple</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 1<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">;</span></a> <a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 0 <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">]</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="CoqDSC.LambdaAL.html#Def"><span class="id" title="constructor">Def</span></a> (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 3) (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 0) (<a class="idref" href="CoqDSC.LambdaAL.html#Var"><span class="id" title="constructor">Var</span></a> (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 0)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;));<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;This&nbsp;returns:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(g&nbsp;=&nbsp;cf;&nbsp;p&nbsp;=&nbsp;Push)<span class="inlinecode"><span class="id" title="var">lam</span></span> <span class="inlinecode"><span class="id" title="var">x</span>.</span>
+            <span class="inlinecode"><span class="id" title="keyword">let</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span> <span class="inlinecode">=</span> <span class="inlinecode">(<span class="id" title="var">g</span>;</span> <span class="inlinecode"><span class="id" title="var">x</span>)</span>
+            <span class="inlinecode"><span class="id" title="keyword">let</span></span> <span class="inlinecode"><span class="id" title="var">z</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">p</span></span> <span class="inlinecode"><span class="id" title="var">y</span></span>
+            <span class="inlinecode"><span class="id" title="tactic">in</span></span> <span class="inlinecode"><span class="id" title="var">z</span></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*)</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#eval_curry"><span class="id" title="definition">eval_curry</span></a> <span class="id" title="var">_</span> := <a class="idref" href="CoqDSC.ErrorMonad.html#error"><span class="id" title="definition">error</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Equations</span> <a name="eval_fixrec"><span class="id" title="definition">eval_fixrec</span></a> (<span class="id" title="var">a</span> : <a class="idref" href="CoqDSC.LambdaALValues.html#value"><span class="id" title="inductive">value</span></a>) : <a class="idref" href="CoqDSC.ErrorMonad.html#t"><span class="id" title="definition">ErrorMonad.t</span></a> <a class="idref" href="CoqDSC.LambdaALValues.html#value"><span class="id" title="inductive">value</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#eval_fixrec"><span class="id" title="definition">eval_fixrec</span></a> (<a class="idref" href="CoqDSC.LambdaALValues.html#Closure"><span class="id" title="constructor">Closure</span></a> <span class="id" title="var">env</span> <span class="id" title="var">t</span>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">F</span> := </div>
+
+<div class="doc">
+F : (A -&gt; B) -&gt; (A -&gt; B). 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALValues.html#Closure"><span class="id" title="constructor">Closure</span></a> <span class="id" title="var">env</span> <span class="id" title="var">t</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">FixF</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALValues.html#Closure"><span class="id" title="constructor">Closure</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="CoqDSC.LambdaALValues.html#values_of_list"><span class="id" title="definition">values_of_list</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#F"><span class="id" title="variable">F</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">;</span></a> <a class="idref" href="CoqDSC.LambdaALValues.html#Primitive"><span class="id" title="constructor">Primitive</span></a> <a class="idref" href="CoqDSC.Constants.html#FixRec"><span class="id" title="constructor">FixRec</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">]</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="CoqDSC.LambdaAL.html#Def"><span class="id" title="constructor">Def</span></a> (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 2) (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 1) ( <span class="comment">(*&nbsp;FIX&nbsp;F&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaAL.html#Def"><span class="id" title="constructor">Def</span></a> (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 0) (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 1) ( <span class="comment">(*&nbsp;(FIX&nbsp;F)&nbsp;X&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="CoqDSC.LambdaAL.html#Var"><span class="id" title="constructor">Var</span></a> (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 0))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.ErrorMonad.html#ret"><span class="id" title="definition">ret</span></a> (<a class="idref" href="CoqDSC.LambdaALValues.html#Closure"><span class="id" title="constructor">Closure</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="CoqDSC.LambdaALValues.html#values_of_list"><span class="id" title="definition">values_of_list</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#F"><span class="id" title="variable">F</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">;</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#FixF"><span class="id" title="variable">FixF</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#f83abbde7679bdbfec6afddd39d41e15"><span class="id" title="notation">]</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="CoqDSC.LambdaAL.html#Def"><span class="id" title="constructor">Def</span></a> (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 1) (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 2) ( <span class="comment">(*&nbsp;F&nbsp;(FIX&nbsp;F)&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaAL.html#Def"><span class="id" title="constructor">Def</span></a> (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 0) (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 1) ( <span class="comment">(*&nbsp;F&nbsp;(FIX&nbsp;F)&nbsp;X&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="CoqDSC.LambdaAL.html#Var"><span class="id" title="constructor">Var</span></a> (<a class="idref" href="CoqDSC.Index.html#Idx"><span class="id" title="constructor">Idx</span></a> 0)))))) ;<br/>
+<br/>
+&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#eval_fixrec"><span class="id" title="definition">eval_fixrec</span></a> <span class="id" title="var">_</span> := <a class="idref" href="CoqDSC.ErrorMonad.html#error"><span class="id" title="definition">error</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="eval_primitive"><span class="id" title="definition">eval_primitive</span></a> <span class="id" title="var">c</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#c"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.Constants.html#Add"><span class="id" title="constructor">Add</span></a> =&gt; <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#eval_add"><span class="id" title="definition">eval_add</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.Constants.html#Push"><span class="id" title="constructor">Push</span></a> =&gt; <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#eval_push"><span class="id" title="definition">eval_push</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.Constants.html#Curry"><span class="id" title="constructor">Curry</span></a> =&gt; <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#eval_curry"><span class="id" title="definition">eval_curry</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="CoqDSC.Constants.html#FixRec"><span class="id" title="constructor">FixRec</span></a> =&gt; <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#eval_fixrec"><span class="id" title="definition">eval_fixrec</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+    </div>
+    <div id="footer">
+      Generated by <a href="http://coq.inria.fr/">coqdoc</a> and improved with <a href="https://github.com/tebbi/coqdocjs">CoqdocJS</a>
+    </div>
+  </div>
+  </body>
+</html>
