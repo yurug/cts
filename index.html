@@ -1,1 +1,338 @@
-CoqDSC.Overview.html
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<link href="coqdocjs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="config.js"></script>
+<script type="text/javascript" src="coqdocjs.js"></script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+
+<body onload="document.getElementById('content').focus()">
+  <div id="header">
+    <span class="left">
+      <span class="modulename"> <script> document.write(document.title) </script> </span>
+    </span>
+
+    <span class="button" id="toggle-proofs"></span>
+
+    <span class="right">
+      <a href="./index.html">Project Page</a>
+      <a href="./indexpage.html"> Index </a>
+      <a href="./toc.html"> Table of Contents </a>
+    </span>
+</div>
+    <div id="content" tabindex="-1" onblur="document.getElementById('content').focus()">
+<div id="main">
+<h1 class="libtitle">CoqDSC.Overview</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab135"></a><h1 class="section">Overview</h1>
+
+<div class="paragraph"> </div>
+
+<a name="lab136"></a><h2 class="section">Non-CTS Languages \(λ_{AL}\) and \(λ_{IAL}\)</h2>
+
+<div class="paragraph"> </div>
+
+ The source language syntax. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaAL.html#"><span class="id" title="library">LambdaAL</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The values of this language. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaALValues.html#"><span class="id" title="library">LambdaALValues</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A big-step step-indexed operational semantics for \(λ_{AL}\). 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#"><span class="id" title="library">LambdaALOperationalSemantics</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We prove
+<ul class="doclist">
+<li> that Step-indexed and non step-indexed semantics coincide ;
+
+</li>
+<li> that λ_{AL} enjoys a deterministic operational semantics ;
+
+</li>
+<li> and many projection lemmas from evaluations of change terms
+      to evaluations of base terms.
+
+</li>
+</ul>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#"><span class="id" title="library">LambdaALOperationalSemanticsProofs</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab137"></a><h2 class="section">Classic (non caching) static differentiation in \(λ_{AL}\)</h2>
+
+<div class="paragraph"> </div>
+
+ The definition of the <span class="inlinecode"><a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a></span> program transformation 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaALDerive.html#"><span class="id" title="library">LambdaALDerive</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A new correctness proof for this transformation. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaALDeriveProofs.html#"><span class="id" title="library">LambdaALDeriveProofs</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+It is based on a step-indexed relation called "validity". 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaALValidity.html#"><span class="id" title="library">LambdaALValidity</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Note: theorems are named following the numbering in the paper, so <i>3_1 is theorem 3.1.  ⊕ agrees with validity. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Theorem</span> <a name="_3_1"><span class="id" title="lemma">_3_1</span></a>: <span class="id" title="keyword">forall</span> <span class="id" title="var">k</span> <span class="id" title="var">v</span> <span class="id" title="var">dv</span> <span class="id" title="var">v'</span>, 0 <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Peano.html#989c98e7ddd65d5bf37c334ff2076de8"><span class="id" title="notation">&lt;</span></a> <a class="idref" href="CoqDSC.Overview.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Overview.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.Overview.html#dv"><span class="id" title="variable">dv</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">▷</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">⤳</span></a> <a class="idref" href="CoqDSC.Overview.html#v'"><span class="id" title="variable">v'</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#64a6660c5ed3e47856f7e7c848c9c807"><span class="id" title="notation">⊕</span></a> <a class="idref" href="CoqDSC.Overview.html#dv"><span class="id" title="variable">dv</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="CoqDSC.Overview.html#v'"><span class="id" title="variable">v'</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>. <span class="id" title="tactic">intros</span>. <span class="id" title="tactic">eapply</span> <a class="idref" href="CoqDSC.LambdaALValidity.html#drel_value_move_value"><span class="id" title="lemma">drel_value_move_value</span></a>; <span class="id" title="tactic">eauto</span>. <span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Downward closure. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="_3_2"><span class="id" title="lemma">_3_2</span></a>:<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">forall</span> <span class="id" title="var">n</span> <span class="id" title="var">v</span> <span class="id" title="var">dv</span> <span class="id" title="var">v'</span> <span class="id" title="var">k</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.Overview.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Peano.html#989c98e7ddd65d5bf37c334ff2076de8"><span class="id" title="notation">&lt;</span></a> <a class="idref" href="CoqDSC.Overview.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Overview.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.Overview.html#dv"><span class="id" title="variable">dv</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">▷</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">⤳</span></a> <a class="idref" href="CoqDSC.Overview.html#v'"><span class="id" title="variable">v'</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Overview.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.Overview.html#dv"><span class="id" title="variable">dv</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">▷</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">⤳</span></a> <a class="idref" href="CoqDSC.Overview.html#v'"><span class="id" title="variable">v'</span></a> <a class="idref" href="CoqDSC.LambdaALValidity.html#9315ee95084ffd240ceb1f4b3a7f3f6e"><span class="id" title="notation">]</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>. <span class="id" title="tactic">intros</span>. <span class="id" title="tactic">eapply</span> <a class="idref" href="CoqDSC.LambdaALValidity.html#drel_value_antimonotonic"><span class="id" title="lemma">drel_value_antimonotonic</span></a>; <span class="id" title="tactic">eauto</span>. <span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Fundamental property for this logical relation. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaALFundamentalProperty.html#"><span class="id" title="library">LambdaALFundamentalProperty</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Extension to environments. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.LambdaALEnvValidity.html#"><span class="id" title="library">LambdaALEnvValidity</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Soundness of differentiation in \(λ_{AL}\) 
+</div>
+<div class="code">
+<span class="id" title="keyword">Theorem</span> <a name="_3_3"><span class="id" title="lemma">_3_3</span></a>:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">forall</span> {<span class="id" title="var">dE</span> <span class="id" title="var">E</span> <span class="id" title="var">E'</span> <span class="id" title="var">t</span> <span class="id" title="var">v</span> <span class="id" title="var">v'</span>},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALEnvValidity.html#rel_env"><span class="id" title="definition">rel_env</span></a> <a class="idref" href="CoqDSC.Overview.html#E"><span class="id" title="variable">E</span></a> <a class="idref" href="CoqDSC.Overview.html#dE"><span class="id" title="variable">dE</span></a> <a class="idref" href="CoqDSC.Overview.html#E'"><span class="id" title="variable">E'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Overview.html#E"><span class="id" title="variable">E</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⇓</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Overview.html#E'"><span class="id" title="variable">E'</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⇓</span></a> <a class="idref" href="CoqDSC.Overview.html#v'"><span class="id" title="variable">v'</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#84eb6d2849dbf3581b1c0c05add5f2d8"><span class="id" title="notation">exists</span></a> <span class="id" title="var">dv</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#84eb6d2849dbf3581b1c0c05add5f2d8"><span class="id" title="notation">,</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#9896d80982198b9a6b161fbd8b69b895"><span class="id" title="notation">[[</span></a> <a class="idref" href="CoqDSC.Overview.html#dE"><span class="id" title="variable">dE</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#9896d80982198b9a6b161fbd8b69b895"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#9896d80982198b9a6b161fbd8b69b895"><span class="id" title="notation">⇓</span></a> <a class="idref" href="CoqDSC.Overview.html#dv"><span class="id" title="variable">dv</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#9896d80982198b9a6b161fbd8b69b895"><span class="id" title="notation">]]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d82a7d96d3659d805ffe732283716822"><span class="id" title="notation">/\</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#64a6660c5ed3e47856f7e7c848c9c807"><span class="id" title="notation">⊕</span></a> <a class="idref" href="CoqDSC.Overview.html#dv"><span class="id" title="variable">dv</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="CoqDSC.Overview.html#v'"><span class="id" title="variable">v'</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>. <span class="id" title="tactic">intros</span>. <span class="id" title="tactic">eapply</span> <a class="idref" href="CoqDSC.LambdaALDeriveProofs.html#derive_soundness"><span class="id" title="lemma">derive_soundness</span></a>; <span class="id" title="tactic">eauto</span>. <span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Fundamental property. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="_3_4"><span class="id" title="lemma">_3_4</span></a>:<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">forall</span> <span class="id" title="var">t</span> <span class="id" title="var">env</span> <span class="id" title="var">denv</span> <span class="id" title="var">env'</span> <span class="id" title="var">k</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALValidity.html#drel_env"><span class="id" title="definition">drel_env</span></a> <a class="idref" href="CoqDSC.Overview.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="CoqDSC.Overview.html#env"><span class="id" title="variable">env</span></a> <a class="idref" href="CoqDSC.Overview.html#denv"><span class="id" title="variable">denv</span></a> <a class="idref" href="CoqDSC.Overview.html#env'"><span class="id" title="variable">env'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALValidity.html#drel_term"><span class="id" title="definition">drel_term</span></a> <a class="idref" href="CoqDSC.Overview.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="CoqDSC.Overview.html#env"><span class="id" title="variable">env</span></a> <a class="idref" href="CoqDSC.Overview.html#denv"><span class="id" title="variable">denv</span></a> <a class="idref" href="CoqDSC.Overview.html#env'"><span class="id" title="variable">env'</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> (<a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a>) <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>. <span class="id" title="tactic">intros</span>. <span class="id" title="tactic">eapply</span> <a class="idref" href="CoqDSC.LambdaALFundamentalProperty.html#fundamental_lemma"><span class="id" title="lemma">fundamental_lemma</span></a>; <span class="id" title="tactic">eauto</span>. <span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab138"></a><h2 class="section">CTS languages \(λ_{CAL}\) and \(λ_{ICAL}\)</h2>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <a class="idref" href="CoqDSC.ILambdaAL.html#"><span class="id" title="library">ILambdaAL</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The values of this language. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.ILambdaALValues.html#"><span class="id" title="library">ILambdaALValues</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A big-step step-indexed operational semantics for \(iλ_{AL}\). 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#"><span class="id" title="library">ILambdaALOperationalSemantics</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab139"></a><h2 class="section">Cache-Transfer Style differentiation</h2>
+
+<div class="paragraph"> </div>
+
+ The definition of the <span class="inlinecode"><a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_derive"><span class="id" title="definition">cts_derive</span></a></span> program transformation 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.ILambdaALDerive.html#"><span class="id" title="library">ILambdaALDerive</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Properties of CTS terms. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.ILambdaALCTSProofs.html#"><span class="id" title="library">ILambdaALCTSProofs</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Evaluation of base terms commutes with evaluation of CTS terms. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Theorem</span> <a name="_3_5"><span class="id" title="lemma">_3_5</span></a>:<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">forall</span> {<span class="id" title="var">E</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span>},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Overview.html#E"><span class="id" title="variable">E</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.Overview.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⇓</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#84eb6d2849dbf3581b1c0c05add5f2d8"><span class="id" title="notation">exists</span></a> <span class="id" title="var">VC</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#84eb6d2849dbf3581b1c0c05add5f2d8"><span class="id" title="notation">,</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">[#</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_environment"><span class="id" title="definition">cts_environment</span></a> <a class="idref" href="CoqDSC.Overview.html#E"><span class="id" title="variable">E</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_term_aux"><span class="id" title="definition">cts_term_aux</span></a> <a class="idref" href="CoqDSC.Overview.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="CoqDSC.Overview.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">⇓</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_value"><span class="id" title="definition">cts_value</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <a class="idref" href="CoqDSC.Overview.html#VC"><span class="id" title="variable">VC</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">]</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>. <span class="id" title="tactic">intros</span>. <span class="id" title="tactic">eapply</span> <a class="idref" href="CoqDSC.ILambdaALCTSProofs.html#eval_cts_compat"><span class="id" title="lemma">eval_cts_compat</span></a>; <span class="id" title="tactic">eauto</span>. <span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Extension of environments with caches. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#"><span class="id" title="library">ILambdaALExtensionWithCaches</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A correctness proof for CTS differentiation. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="CoqDSC.ILambdaALDeriveProofs.html#"><span class="id" title="library">ILambdaALDeriveProofs</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Evaluation of derivatives commutes with evaluation of CTS derivatives.  This is sketched as lemma 3.6 and stated formally in the appendix as lemma
+    B.1. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="_3_6_B_1"><span class="id" title="lemma">_3_6_B_1</span></a>:<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">forall</span> {<span class="id" title="var">n</span> <span class="id" title="var">E</span> <span class="id" title="var">dE</span> <span class="id" title="var">E'</span> <span class="id" title="var">dEu</span> <span class="id" title="var">Eu'</span> <span class="id" title="var">t</span> <span class="id" title="var">ctx</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span> <span class="id" title="var">v'</span> <span class="id" title="var">dv</span> <span class="id" title="var">VC</span> <span class="id" title="var">VC'</span> <span class="id" title="var">xdF</span> <span class="id" title="var">xdF'</span> <span class="id" title="var">F'</span>},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALEnvValidity.html#rel_env"><span class="id" title="definition">rel_env</span></a> <a class="idref" href="CoqDSC.Overview.html#E"><span class="id" title="variable">E</span></a> <a class="idref" href="CoqDSC.Overview.html#dE"><span class="id" title="variable">dE</span></a> <a class="idref" href="CoqDSC.Overview.html#E'"><span class="id" title="variable">E'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">Eu</span> := <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#2c0a5a7a3edbd2d036ce52734d0e9f72"><span class="id" title="notation">⌊</span></a> <a class="idref" href="CoqDSC.Overview.html#dEu"><span class="id" title="variable">dEu</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#2c0a5a7a3edbd2d036ce52734d0e9f72"><span class="id" title="notation">⌋</span></a> <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#f1d0c93cf3a4c2546abcd77134ca0628"><span class="id" title="notation">⌈</span></a> <a class="idref" href="CoqDSC.Overview.html#dEu"><span class="id" title="variable">dEu</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#f1d0c93cf3a4c2546abcd77134ca0628"><span class="id" title="notation">⌉</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="CoqDSC.Overview.html#Eu'"><span class="id" title="variable">Eu'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaAL.html#graft"><span class="id" title="definition">graft</span></a> <a class="idref" href="CoqDSC.Overview.html#ctx"><span class="id" title="variable">ctx</span></a> <a class="idref" href="CoqDSC.Overview.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#1413d6cc04761d501b915a7702e5423d"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Overview.html#E"><span class="id" title="variable">E</span></a>  <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#1413d6cc04761d501b915a7702e5423d"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.Overview.html#ctx"><span class="id" title="variable">ctx</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#1413d6cc04761d501b915a7702e5423d"><span class="id" title="notation">⇑</span></a> <a class="idref" href="CoqDSC.Overview.html#Eu"><span class="id" title="variable">Eu</span></a>  <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#1413d6cc04761d501b915a7702e5423d"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a>  <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Overview.html#Eu"><span class="id" title="variable">Eu</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#5d35a99a6abff1d64bf70538feb70e36"><span class="id" title="notation">++</span></a> <a class="idref" href="CoqDSC.Overview.html#E"><span class="id" title="variable">E</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.Overview.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⇓</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#1413d6cc04761d501b915a7702e5423d"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Overview.html#E'"><span class="id" title="variable">E'</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#1413d6cc04761d501b915a7702e5423d"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.Overview.html#ctx"><span class="id" title="variable">ctx</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#1413d6cc04761d501b915a7702e5423d"><span class="id" title="notation">⇑</span></a> <a class="idref" href="CoqDSC.Overview.html#Eu'"><span class="id" title="variable">Eu'</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#1413d6cc04761d501b915a7702e5423d"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a>  <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Overview.html#Eu'"><span class="id" title="variable">Eu'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#5d35a99a6abff1d64bf70538feb70e36"><span class="id" title="notation">++</span></a> <a class="idref" href="CoqDSC.Overview.html#E'"><span class="id" title="variable">E'</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.Overview.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⇓</span></a> <a class="idref" href="CoqDSC.Overview.html#v'"><span class="id" title="variable">v'</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#01bd7ca0eb1860d1a800146303cd75bc"><span class="id" title="notation">[[</span></a> <a class="idref" href="CoqDSC.Overview.html#dE"><span class="id" title="variable">dE</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#01bd7ca0eb1860d1a800146303cd75bc"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a> <a class="idref" href="CoqDSC.Overview.html#ctx"><span class="id" title="variable">ctx</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#01bd7ca0eb1860d1a800146303cd75bc"><span class="id" title="notation">⇑</span></a> <a class="idref" href="CoqDSC.Overview.html#dEu"><span class="id" title="variable">dEu</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemanticsProofs.html#01bd7ca0eb1860d1a800146303cd75bc"><span class="id" title="notation">]]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#5296a2e187cde279670076fa8dae463d"><span class="id" title="notation">[[</span></a> <a class="idref" href="CoqDSC.Overview.html#dEu"><span class="id" title="variable">dEu</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#5d35a99a6abff1d64bf70538feb70e36"><span class="id" title="notation">++</span></a> <a class="idref" href="CoqDSC.Overview.html#dE"><span class="id" title="variable">dE</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#5296a2e187cde279670076fa8dae463d"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.LambdaALDerive.html#derive"><span class="id" title="definition">derive</span></a> <a class="idref" href="CoqDSC.Overview.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#5296a2e187cde279670076fa8dae463d"><span class="id" title="notation">⇓</span></a> <a class="idref" href="CoqDSC.Overview.html#dv"><span class="id" title="variable">dv</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#5296a2e187cde279670076fa8dae463d"><span class="id" title="notation">@</span></a> <a class="idref" href="CoqDSC.Overview.html#n"><span class="id" title="variable">n</span></a><a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#5296a2e187cde279670076fa8dae463d"><span class="id" title="notation">]]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#dc959d4d5dcec7a26a43816eb6068995"><span class="id" title="notation">[[</span></a> <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#Old"><span class="id" title="constructor">Old</span></a> <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#dc959d4d5dcec7a26a43816eb6068995"><span class="id" title="notation">#</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_denvironment"><span class="id" title="definition">cts_denvironment</span></a> <a class="idref" href="CoqDSC.Overview.html#dE"><span class="id" title="variable">dE</span></a> <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#dc959d4d5dcec7a26a43816eb6068995"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_denvironment"><span class="id" title="definition">cts_denvironment</span></a> <a class="idref" href="CoqDSC.Overview.html#dEu"><span class="id" title="variable">dEu</span></a> <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#dc959d4d5dcec7a26a43816eb6068995"><span class="id" title="notation">↑</span></a> <a class="idref" href="CoqDSC.Overview.html#ctx"><span class="id" title="variable">ctx</span></a> <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#dc959d4d5dcec7a26a43816eb6068995"><span class="id" title="notation">⇾</span></a> <a class="idref" href="CoqDSC.Overview.html#xdF"><span class="id" title="variable">xdF</span></a>   <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#dc959d4d5dcec7a26a43816eb6068995"><span class="id" title="notation">]]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#dc959d4d5dcec7a26a43816eb6068995"><span class="id" title="notation">[[</span></a> <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#New"><span class="id" title="constructor">New</span></a> <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#dc959d4d5dcec7a26a43816eb6068995"><span class="id" title="notation">#</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_denvironment"><span class="id" title="definition">cts_denvironment</span></a> <a class="idref" href="CoqDSC.Overview.html#dE"><span class="id" title="variable">dE</span></a> <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#dc959d4d5dcec7a26a43816eb6068995"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_denvironment"><span class="id" title="definition">cts_denvironment</span></a> <a class="idref" href="CoqDSC.Overview.html#dEu"><span class="id" title="variable">dEu</span></a> <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#dc959d4d5dcec7a26a43816eb6068995"><span class="id" title="notation">↑</span></a> <a class="idref" href="CoqDSC.Overview.html#ctx"><span class="id" title="variable">ctx</span></a> <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#dc959d4d5dcec7a26a43816eb6068995"><span class="id" title="notation">⇾</span></a> <a class="idref" href="CoqDSC.Overview.html#xdF'"><span class="id" title="variable">xdF'</span></a>  <a class="idref" href="CoqDSC.ILambdaALExtensionWithCaches.html#dc959d4d5dcec7a26a43816eb6068995"><span class="id" title="notation">]]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">VCu</span> := <a class="idref" href="CoqDSC.Misc.html#drop"><span class="id" title="definition">drop</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#length"><span class="id" title="abbreviation">List.length</span></a> <a class="idref" href="CoqDSC.Overview.html#xdF"><span class="id" title="variable">xdF</span></a>) <a class="idref" href="CoqDSC.Overview.html#VC"><span class="id" title="variable">VC</span></a> <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">dF</span>  := <a class="idref" href="CoqDSC.Overview.html#xdF"><span class="id" title="variable">xdF</span></a>  <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#5d35a99a6abff1d64bf70538feb70e36"><span class="id" title="notation">++</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_denvironment"><span class="id" title="definition">cts_denvironment</span></a> <a class="idref" href="CoqDSC.Overview.html#dE"><span class="id" title="variable">dE</span></a> <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">dF'</span> := <a class="idref" href="CoqDSC.Overview.html#xdF'"><span class="id" title="variable">xdF'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#5d35a99a6abff1d64bf70538feb70e36"><span class="id" title="notation">++</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_denvironment"><span class="id" title="definition">cts_denvironment</span></a> <a class="idref" href="CoqDSC.Overview.html#dE"><span class="id" title="variable">dE</span></a> <span class="id" title="tactic">in</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">[#</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c0bae215165134e8b45be99455570b9f"><span class="id" title="notation">⌊#</span></a> <a class="idref" href="CoqDSC.Overview.html#dF"><span class="id" title="variable">dF</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c0bae215165134e8b45be99455570b9f"><span class="id" title="notation">⌋</span></a>  <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_term_aux"><span class="id" title="definition">cts_term_aux</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="CoqDSC.Overview.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">⇓</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_value"><span class="id" title="definition">cts_value</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <a class="idref" href="CoqDSC.ILambdaALValues.html#CacheValue"><span class="id" title="constructor">CacheValue</span></a> <a class="idref" href="CoqDSC.Overview.html#VC"><span class="id" title="variable">VC</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a><a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#19fd3d96a032a1abc5e9412813973d23"><span class="id" title="notation">⌈#</span></a> <a class="idref" href="CoqDSC.Overview.html#dF'"><span class="id" title="variable">dF'</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#19fd3d96a032a1abc5e9412813973d23"><span class="id" title="notation">⌉</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="CoqDSC.Overview.html#F'"><span class="id" title="variable">F'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">[#</span></a> <a class="idref" href="CoqDSC.Overview.html#F'"><span class="id" title="variable">F'</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_term_aux"><span class="id" title="definition">cts_term_aux</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="CoqDSC.Overview.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">⇓</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_value"><span class="id" title="definition">cts_value</span></a> <a class="idref" href="CoqDSC.Overview.html#v'"><span class="id" title="variable">v'</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <a class="idref" href="CoqDSC.ILambdaALValues.html#CacheValue"><span class="id" title="constructor">CacheValue</span></a> <a class="idref" href="CoqDSC.Overview.html#VC'"><span class="id" title="variable">VC'</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a><a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#45d5217ad7ca4ebed618542fbe6891c7"><span class="id" title="notation">[[#</span></a><a class="idref" href="CoqDSC.Overview.html#VCu"><span class="id" title="variable">VCu</span></a><a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#45d5217ad7ca4ebed618542fbe6891c7"><span class="id" title="notation">,</span></a> <a class="idref" href="CoqDSC.Overview.html#dF'"><span class="id" title="variable">dF'</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#45d5217ad7ca4ebed618542fbe6891c7"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_derive_term"><span class="id" title="definition">cts_derive_term</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="CoqDSC.Overview.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#45d5217ad7ca4ebed618542fbe6891c7"><span class="id" title="notation">⇓</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_dvalue"><span class="id" title="definition">cts_dvalue</span></a> <a class="idref" href="CoqDSC.Overview.html#dv"><span class="id" title="variable">dv</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <a class="idref" href="CoqDSC.ILambdaALValues.html#CacheValue"><span class="id" title="constructor">CacheValue</span></a> <a class="idref" href="CoqDSC.Overview.html#VC'"><span class="id" title="variable">VC'</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a><a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#45d5217ad7ca4ebed618542fbe6891c7"><span class="id" title="notation">]]</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>. <span class="id" title="tactic">intros</span>. <span class="id" title="tactic">eapply</span> <a class="idref" href="CoqDSC.ILambdaALDeriveProofs.html#cts_derive_cts_dvalue_gen"><span class="id" title="lemma">cts_derive_cts_dvalue_gen</span></a>; <span class="id" title="tactic">eauto</span>. <span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Soundness of CTS differentiation. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Theorem</span> <a name="_3_7"><span class="id" title="lemma">_3_7</span></a>:<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">forall</span> <span class="id" title="var">E</span> <span class="id" title="var">dE</span> <span class="id" title="var">E'</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALEnvValidity.html#rel_env"><span class="id" title="definition">rel_env</span></a> <a class="idref" href="CoqDSC.Overview.html#E"><span class="id" title="variable">E</span></a> <a class="idref" href="CoqDSC.Overview.html#dE"><span class="id" title="variable">dE</span></a> <a class="idref" href="CoqDSC.Overview.html#E'"><span class="id" title="variable">E'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">forall</span> <span class="id" title="var">t</span> <span class="id" title="var">v</span> <span class="id" title="var">v'</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Overview.html#E"><span class="id" title="variable">E</span></a>  <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⇓</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a>  <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">[</span></a> <a class="idref" href="CoqDSC.Overview.html#E'"><span class="id" title="variable">E'</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">⇓</span></a> <a class="idref" href="CoqDSC.Overview.html#v'"><span class="id" title="variable">v'</span></a> <a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#1cdbb28de46816ab21e16a69859bc55a"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#84eb6d2849dbf3581b1c0c05add5f2d8"><span class="id" title="notation">exists</span></a> <span class="id" title="var">dv</span> <span class="id" title="var">VC</span> <span class="id" title="var">VC'</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#84eb6d2849dbf3581b1c0c05add5f2d8"><span class="id" title="notation">,</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#84eb6d2849dbf3581b1c0c05add5f2d8"><span class="id" title="notation">(</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">[#</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_environment"><span class="id" title="definition">cts_environment</span></a> <a class="idref" href="CoqDSC.Overview.html#E"><span class="id" title="variable">E</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_term"><span class="id" title="definition">cts_term</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">⇓</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_value"><span class="id" title="definition">cts_value</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <a class="idref" href="CoqDSC.ILambdaALValues.html#CacheValue"><span class="id" title="constructor">CacheValue</span></a> <a class="idref" href="CoqDSC.Overview.html#VC"><span class="id" title="variable">VC</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d82a7d96d3659d805ffe732283716822"><span class="id" title="notation">/\</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">[#</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_environment"><span class="id" title="definition">cts_environment</span></a> <a class="idref" href="CoqDSC.Overview.html#E'"><span class="id" title="variable">E'</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_term"><span class="id" title="definition">cts_term</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">⇓</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_value"><span class="id" title="definition">cts_value</span></a> <a class="idref" href="CoqDSC.Overview.html#v'"><span class="id" title="variable">v'</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <a class="idref" href="CoqDSC.ILambdaALValues.html#CacheValue"><span class="id" title="constructor">CacheValue</span></a> <a class="idref" href="CoqDSC.Overview.html#VC'"><span class="id" title="variable">VC'</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#c4fd2cc8ca41bd987e24ec2bbce4bde0"><span class="id" title="notation">]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d82a7d96d3659d805ffe732283716822"><span class="id" title="notation">/\</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#45d5217ad7ca4ebed618542fbe6891c7"><span class="id" title="notation">[[#</span></a> <a class="idref" href="CoqDSC.Overview.html#VC"><span class="id" title="variable">VC</span></a><a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#45d5217ad7ca4ebed618542fbe6891c7"><span class="id" title="notation">,</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_denvironment"><span class="id" title="definition">cts_denvironment</span></a> <a class="idref" href="CoqDSC.Overview.html#dE"><span class="id" title="variable">dE</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#45d5217ad7ca4ebed618542fbe6891c7"><span class="id" title="notation">⊢</span></a> <a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_derive"><span class="id" title="definition">cts_derive</span></a> <a class="idref" href="CoqDSC.Overview.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#45d5217ad7ca4ebed618542fbe6891c7"><span class="id" title="notation">⇓</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><a class="idref" href="CoqDSC.ILambdaALDerive.html#cts_dvalue"><span class="id" title="definition">cts_dvalue</span></a> <a class="idref" href="CoqDSC.Overview.html#dv"><span class="id" title="variable">dv</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <a class="idref" href="CoqDSC.ILambdaALValues.html#CacheValue"><span class="id" title="constructor">CacheValue</span></a> <a class="idref" href="CoqDSC.Overview.html#VC'"><span class="id" title="variable">VC'</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a> <a class="idref" href="CoqDSC.ILambdaALOperationalSemantics.html#45d5217ad7ca4ebed618542fbe6891c7"><span class="id" title="notation">]]</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d82a7d96d3659d805ffe732283716822"><span class="id" title="notation">/\</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="CoqDSC.LambdaALOperationalSemantics.html#move"><span class="id" title="definition">LambdaALOperationalSemantics.move</span></a> <a class="idref" href="CoqDSC.Overview.html#v"><span class="id" title="variable">v</span></a> <a class="idref" href="CoqDSC.Overview.html#dv"><span class="id" title="variable">dv</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <a class="idref" href="CoqDSC.Overview.html#v'"><span class="id" title="variable">v'</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#84eb6d2849dbf3581b1c0c05add5f2d8"><span class="id" title="notation">)</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>. <span class="id" title="tactic">intros</span>. <span class="id" title="tactic">eapply</span> <a class="idref" href="CoqDSC.ILambdaALDeriveProofs.html#cts_derive_soundness"><span class="id" title="lemma">cts_derive_soundness</span></a>; <span class="id" title="tactic">eauto</span>. <span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+    </div>
+    <div id="footer">
+      Generated by <a href="http://coq.inria.fr/">coqdoc</a> and improved with <a href="https://github.com/tebbi/coqdocjs">CoqdocJS</a>
+    </div>
+  </div>
+  </body>
+</html>
