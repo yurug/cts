@@ -1,0 +1,571 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<link href="coqdocjs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="config.js"></script>
+<script type="text/javascript" src="coqdocjs.js"></script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+
+<body onload="document.getElementById('content').focus()">
+  <div id="header">
+    <span class="left">
+      <span class="modulename"> <script> document.write(document.title) </script> </span>
+    </span>
+
+    <span class="button" id="toggle-proofs"></span>
+
+    <span class="right">
+      <a href="./index.html">Project Page</a>
+      <a href="./indexpage.html"> Index </a>
+      <a href="./toc.html"> Table of Contents </a>
+    </span>
+</div>
+    <div id="content" tabindex="-1" onblur="document.getElementById('content').focus()">
+<div id="main">
+<h1 class="libtitle">CoqDSC.Crush</h1>
+
+<div class="code">
+<span class="comment">(*<br/>
+&nbsp;*&nbsp;PG:&nbsp;taken&nbsp;from<br/>
+&nbsp;*&nbsp;https://github.com/jwiegley/coq-haskell/blob/ccd560af09e3f773a444714fc80be58580e1fbeb/src/Crush.v<br/>
+&nbsp;*)</span><br/>
+<span class="comment">(*&nbsp;Copyright&nbsp;(c)&nbsp;2008-2012,&nbsp;Adam&nbsp;Chlipala<br/>
+&nbsp;*&nbsp;<br/>
+&nbsp;*&nbsp;This&nbsp;work&nbsp;is&nbsp;licensed&nbsp;under&nbsp;a<br/>
+&nbsp;*&nbsp;Creative&nbsp;Commons&nbsp;Attribution-Noncommercial-No&nbsp;Derivative&nbsp;Works&nbsp;3.0<br/>
+&nbsp;*&nbsp;Unported&nbsp;License.<br/>
+&nbsp;*&nbsp;The&nbsp;license&nbsp;text&nbsp;is&nbsp;available&nbsp;at:<br/>
+&nbsp;*&nbsp;&nbsp;&nbsp;http://creativecommons.org/licenses/by-nc-nd/3.0/<br/>
+&nbsp;*)</span><br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Logic.Eqdep.html#"><span class="id" title="library">Coq.Logic.Eqdep</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#"><span class="id" title="library">Coq.Lists.List</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.omega.Omega.html#"><span class="id" title="library">Omega</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Set</span> <span class="id" title="var">Primitive</span> <span class="id" title="var">Projection</span>.<br/>
+<span class="id" title="keyword">Set Implicit Arguments</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A version of <span class="inlinecode"><span class="id" title="tactic">injection</span></span> that does some standard simplifications afterward: clear the hypothesis in question, bring the new facts above the double line, and attempt substitution for known variables. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">inject</span> <span class="id" title="var">H</span> := <span class="id" title="tactic">injection</span> <span class="id" title="var">H</span>; <span class="id" title="tactic">clear</span> <span class="id" title="var">H</span>; <span class="id" title="tactic">intros</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">subst</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Try calling tactic function <span class="inlinecode"><a class="idref" href="CoqDSC.LibTactics.html#f"><span class="id" title="variable">f</span></a></span> on all hypotheses, keeping the first application that doesn't fail. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">appHyps</span> <span class="id" title="var">f</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="var">f</span> <span class="id" title="var">H</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Succeed iff <span class="inlinecode"><a class="idref" href="CoqDSC.LibTactics.html#x"><span class="id" title="variable">x</span></a></span> is in the list <span class="inlinecode"><span class="id" title="var">ls</span></span>, represented with left-associated nested tuples. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">inList</span> <span class="id" title="var">x</span> <span class="id" title="var">ls</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">ls</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">x</span> =&gt; <span class="id" title="tactic">idtac</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><span class="id" title="var">_</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <span class="id" title="var">x</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a> =&gt; <span class="id" title="tactic">idtac</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a>?<span class="id" title="var">LS</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <span class="id" title="var">_</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a> =&gt; <span class="id" title="var">inList</span> <span class="id" title="var">x</span> <span class="id" title="var">LS</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Try calling tactic function <span class="inlinecode"><a class="idref" href="CoqDSC.LibTactics.html#f"><span class="id" title="variable">f</span></a></span> on every element of tupled list <span class="inlinecode"><span class="id" title="var">ls</span></span>, keeping the first call not to fail. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">app</span> <span class="id" title="var">f</span> <span class="id" title="var">ls</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">ls</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a>?<span class="id" title="var">LS</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> ?<span class="id" title="var">X</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a> =&gt; <span class="id" title="var">f</span> <span class="id" title="var">X</span> || <span class="id" title="var">app</span> <span class="id" title="var">f</span> <span class="id" title="var">LS</span> || <span class="id" title="tactic">fail</span> 1<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span> =&gt; <span class="id" title="var">f</span> <span class="id" title="var">ls</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Run <span class="inlinecode"><a class="idref" href="CoqDSC.LibTactics.html#f"><span class="id" title="variable">f</span></a></span> on every element of <span class="inlinecode"><span class="id" title="var">ls</span></span>, not just the first that doesn't fail. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">all</span> <span class="id" title="var">f</span> <span class="id" title="var">ls</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">ls</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a>?<span class="id" title="var">LS</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> ?<span class="id" title="var">X</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a> =&gt; <span class="id" title="var">f</span> <span class="id" title="var">X</span>; <span class="id" title="var">all</span> <span class="id" title="var">f</span> <span class="id" title="var">LS</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><span class="id" title="var">_</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <span class="id" title="var">_</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a> =&gt; <span class="id" title="tactic">fail</span> 1<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span> =&gt; <span class="id" title="var">f</span> <span class="id" title="var">ls</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Workhorse tactic to simplify hypotheses for a variety of proofs.
+<a name="lab74"></a><h1 class="section">Argument <span class="inlinecode"><span class="id" title="var">invOne</span></span> is a tuple-list of predicates for which we always do inversion automatically.</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">simplHyp</span> <span class="id" title="var">invOne</span> :=<br/>
+&nbsp;&nbsp;</div>
+
+<div class="doc">
+Helper function to do inversion on certain hypotheses, where <span class="inlinecode"><span class="id" title="var">H</span></span> is the hypothesis and <span class="inlinecode"><a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#F"><span class="id" title="variable">F</span></a></span> its head symbol 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">invert</span> <span class="id" title="var">H</span> <span class="id" title="var">F</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+We only proceed for those predicates in <span class="inlinecode"><span class="id" title="var">invOne</span></span>. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">inList</span> <span class="id" title="var">F</span> <span class="id" title="var">invOne</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+This case covers an inversion that succeeds immediately, meaning no constructors of <span class="inlinecode"><a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#F"><span class="id" title="variable">F</span></a></span> applied. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">inversion</span> <span class="id" title="var">H</span>; <span class="id" title="tactic">fail</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+Otherwise, we only proceed if inversion eliminates all but one constructor case. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|| (<span class="id" title="tactic">inversion</span> <span class="id" title="var">H</span>; [<span class="id" title="tactic">idtac</span>]; <span class="id" title="tactic">clear</span> <span class="id" title="var">H</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">subst</span>) <span class="id" title="tactic">in</span><br/>
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+Eliminate all existential hypotheses. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#ex"><span class="id" title="inductive">ex</span></a> <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="tactic">destruct</span> <span class="id" title="var">H</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+Find opportunities to take advantage of injectivity of data constructors, for several different arities. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : ?<span class="id" title="var">F</span> ?<span class="id" title="var">X</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> ?<span class="id" title="var">F</span> ?<span class="id" title="var">Y</span> |- ?<span class="id" title="var">G</span> ] =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+This first branch of the <span class="inlinecode">||</span> fails the whole attempt iff the arguments of the constructor applications are already easy to prove equal. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">assert</span> (<span class="id" title="var">X</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <span class="id" title="var">Y</span>); [ <span class="id" title="tactic">assumption</span> | <span class="id" title="tactic">fail</span> 1 ])<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+If we pass that filter, then we use injection on <span class="inlinecode"><span class="id" title="var">H</span></span> and do some simplification as in <span class="inlinecode"><span class="id" title="var">inject</span></span>.
+<a name="lab75"></a><h1 class="section">The odd-looking check of the goal form is to avoid cases where <span class="inlinecode"><span class="id" title="tactic">injection</span></span> gives a more complex result because of dependent typing, which we aren't equipped to handle here.</h1>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|| (<span class="id" title="tactic">injection</span> <span class="id" title="var">H</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [ |- <span class="id" title="var">X</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <span class="id" title="var">Y</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="var">G</span> ] =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">try</span> <span class="id" title="tactic">clear</span> <span class="id" title="var">H</span>; <span class="id" title="tactic">intros</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">subst</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : ?<span class="id" title="var">F</span> ?<span class="id" title="var">X</span> ?<span class="id" title="var">U</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> ?<span class="id" title="var">F</span> ?<span class="id" title="var">Y</span> ?<span class="id" title="var">V</span> |- ?<span class="id" title="var">G</span> ] =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">assert</span> (<span class="id" title="var">X</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <span class="id" title="var">Y</span>); [ <span class="id" title="tactic">assumption</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="tactic">assert</span> (<span class="id" title="var">U</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <span class="id" title="var">V</span>); [ <span class="id" title="tactic">assumption</span> | <span class="id" title="tactic">fail</span> 1 ] ])<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|| (<span class="id" title="tactic">injection</span> <span class="id" title="var">H</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [ |- <span class="id" title="var">U</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <span class="id" title="var">V</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="var">X</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <span class="id" title="var">Y</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="var">G</span> ] =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">try</span> <span class="id" title="tactic">clear</span> <span class="id" title="var">H</span>; <span class="id" title="tactic">intros</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">subst</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>)<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+Consider some different arities of a predicate <span class="inlinecode"><a class="idref" href="CoqDSC.LambdaALOperationalSemanticsPrimitives.html#F"><span class="id" title="variable">F</span></a></span> in a hypothesis that we might want to invert. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : ?<span class="id" title="var">F</span> <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="var">invert</span> <span class="id" title="var">H</span> <span class="id" title="var">F</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : ?<span class="id" title="var">F</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="var">invert</span> <span class="id" title="var">H</span> <span class="id" title="var">F</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : ?<span class="id" title="var">F</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="var">invert</span> <span class="id" title="var">H</span> <span class="id" title="var">F</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : ?<span class="id" title="var">F</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="var">invert</span> <span class="id" title="var">H</span> <span class="id" title="var">F</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : ?<span class="id" title="var">F</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="var">invert</span> <span class="id" title="var">H</span> <span class="id" title="var">F</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+Use an (axiom-dependent!) inversion principle for dependent pairs, from the standard library. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Specif.html#existT"><span class="id" title="constructor">existT</span></a> <span class="id" title="var">_</span> ?<span class="id" title="var">T</span> <span class="id" title="var">_</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Specif.html#existT"><span class="id" title="constructor">existT</span></a> <span class="id" title="var">_</span> ?<span class="id" title="var">T</span> <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="tactic">generalize</span> (<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Logic.Eqdep.html#EqdepTheory.inj_pair2"><span class="id" title="lemma">inj_pair2</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">H</span>); <span class="id" title="tactic">clear</span> <span class="id" title="var">H</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+If we're not ready to use that principle yet, try the standard inversion, which often enables the previous rule. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Specif.html#existT"><span class="id" title="constructor">existT</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Specif.html#existT"><span class="id" title="constructor">existT</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="tactic">inversion</span> <span class="id" title="var">H</span>; <span class="id" title="tactic">clear</span> <span class="id" title="var">H</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+Similar logic to the cases for constructor injectivity above, but specialized to <span class="inlinecode"><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a></span>, since the above cases won't deal with polymorphic constructors. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <span class="id" title="var">_</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#Some"><span class="id" title="constructor">Some</span></a> <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="tactic">injection</span> <span class="id" title="var">H</span>; <span class="id" title="tactic">clear</span> <span class="id" title="var">H</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Find some hypothesis to rewrite with, ensuring that <span class="inlinecode"><span class="id" title="tactic">auto</span></span> proves all of the extra subgoals added by <span class="inlinecode"><span class="id" title="tactic">rewrite</span></span>. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">rewriteHyp</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="tactic">rewrite</span> <span class="id" title="var">H</span> <span class="id" title="tactic">by</span> <span class="id" title="tactic">solve</span> [ <span class="id" title="tactic">auto</span> ]<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Combine <span class="inlinecode"><span class="id" title="tactic">autorewrite</span></span> with automatic hypothesis rewrites. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">rewriterP</span> := <span class="id" title="tactic">repeat</span> (<span class="id" title="var">rewriteHyp</span>; <span class="id" title="tactic">autorewrite</span> <span class="id" title="keyword">with</span> <span class="id" title="var">core</span> <span class="id" title="tactic">in</span> *).<br/>
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">rewriter</span> := <span class="id" title="tactic">autorewrite</span> <span class="id" title="keyword">with</span> <span class="id" title="var">core</span> <span class="id" title="tactic">in</span> *; <span class="id" title="var">rewriterP</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+This one is just so darned useful, let's add it as a hint here. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Hint Rewrite</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Lists.List.html#app_ass"><span class="id" title="abbreviation">app_ass</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Devious marker predicate to use for encoding state within proof goals 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="done"><span class="id" title="definition">done</span></a> (<span class="id" title="var">T</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">x</span> : <a class="idref" href="CoqDSC.Crush.html#T"><span class="id" title="variable">T</span></a>) := <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#True"><span class="id" title="inductive">True</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Try a new instantiation of a universally quantified fact, proved by <span class="inlinecode"><a class="idref" href="CoqDSC.LibTactics.html#e"><span class="id" title="variable">e</span></a></span>.
+<a name="lab76"></a><h1 class="section"><span class="inlinecode"><span class="id" title="var">trace</span></span> is an accumulator recording which instantiations we choose.</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">inster</span> <span class="id" title="var">e</span> <span class="id" title="var">trace</span> :=<br/>
+&nbsp;&nbsp;</div>
+
+<div class="doc">
+Does <span class="inlinecode"><a class="idref" href="CoqDSC.LibTactics.html#e"><span class="id" title="variable">e</span></a></span> have any quantifiers left? 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="keyword">type</span> <span class="id" title="keyword">of</span> <span class="id" title="var">e</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="keyword">forall</span> <span class="id" title="var">x</span> : <span class="id" title="var">_</span>, <span class="id" title="var">_</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+Yes, so let's pick the first context variable of the right type. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">inster</span> (<span class="id" title="var">e</span> <span class="id" title="var">H</span>) <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><span class="id" title="var">trace</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <span class="id" title="var">H</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span> =&gt; <span class="id" title="tactic">fail</span> 2<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+No more quantifiers, so now we check if the trace we computed was already used. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">trace</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><span class="id" title="var">_</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <span class="id" title="var">_</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+We only reach this case if the trace is nonempty, ensuring that <span class="inlinecode"><span class="id" title="var">inster</span></span> fails if no progress can be made. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : <a class="idref" href="CoqDSC.Crush.html#done"><span class="id" title="definition">done</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><span class="id" title="var">trace</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <span class="id" title="var">_</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a> |- <span class="id" title="var">_</span> ] =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+Uh oh, found a record of this trace in the context!  Backtrack to try another trace. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">fail</span> 1<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+What is the type of the proof <span class="inlinecode"><a class="idref" href="CoqDSC.LibTactics.html#e"><span class="id" title="variable">e</span></a></span> now? 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">T</span> := <span class="id" title="keyword">type</span> <span class="id" title="keyword">of</span> <span class="id" title="var">e</span> <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="keyword">type</span> <span class="id" title="keyword">of</span> <span class="id" title="var">T</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="keyword">Prop</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+<span class="inlinecode"><a class="idref" href="CoqDSC.LibTactics.html#e"><span class="id" title="variable">e</span></a></span> should be thought of as a proof, so let's add it to the context, and also add a new marker hypothesis recording our choice of trace. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">generalize</span> <span class="id" title="var">e</span>; <span class="id" title="tactic">intro</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<a class="idref" href="CoqDSC.Crush.html#done"><span class="id" title="definition">done</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><span class="id" title="var">trace</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#tt"><span class="id" title="constructor">tt</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a>) <span class="id" title="tactic">by</span> <span class="id" title="tactic">constructor</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+<span class="inlinecode"><a class="idref" href="CoqDSC.LibTactics.html#e"><span class="id" title="variable">e</span></a></span> is something beside a proof.  Better make sure no element of our current trace was generated by a previous call to <span class="inlinecode"><span class="id" title="var">inster</span></span>, or we might get stuck in an infinite loop!  (We store previous <span class="inlinecode"><span class="id" title="var">inster</span></span> terms in second positions of tuples used as arguments to <span class="inlinecode"><a class="idref" href="CoqDSC.Crush.html#done"><span class="id" title="definition">done</span></a></span> in hypotheses.  Proofs instantiated by <span class="inlinecode"><span class="id" title="var">inster</span></span> merely use <span class="inlinecode"><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#tt"><span class="id" title="constructor">tt</span></a></span> in such positions.) 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">all</span> <span class="id" title="keyword">ltac</span>:(<span class="id" title="keyword">fun</span> <span class="id" title="var">X</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : <a class="idref" href="CoqDSC.Crush.html#done"><span class="id" title="definition">done</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><span class="id" title="var">_</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <span class="id" title="var">X</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="tactic">fail</span> 1<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span> =&gt; <span class="id" title="tactic">idtac</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>) <span class="id" title="var">trace</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+Pick a new name for our new instantiation. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">i</span> := <span class="id" title="tactic">fresh</span> "i" <span class="id" title="tactic">in</span> (<span class="id" title="tactic">pose</span> (<span class="id" title="var">i</span> := <span class="id" title="var">e</span>);<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<a class="idref" href="CoqDSC.Crush.html#done"><span class="id" title="definition">done</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">(</span></a><span class="id" title="var">trace</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">,</span></a> <span class="id" title="var">i</span><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#44400027531d4bc3f586a1997dc874c0"><span class="id" title="notation">)</span></a>) <span class="id" title="tactic">by</span> <span class="id" title="tactic">constructor</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+After a round of application with the above, we will have a lot of junk <span class="inlinecode"><a class="idref" href="CoqDSC.Crush.html#done"><span class="id" title="definition">done</span></a></span> markers to clean up; hence this tactic. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">un_done</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : <a class="idref" href="CoqDSC.Crush.html#done"><span class="id" title="definition">done</span></a> <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="tactic">clear</span> <span class="id" title="var">H</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Logic.JMeq.html#"><span class="id" title="library">JMeq</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A more parameterized version of the famous <span class="inlinecode"><span class="id" title="var">crush</span></span>.  Extra arguments are:
+<a name="lab77"></a><h1 class="section">- A tuple-list of lemmas we try <span class="inlinecode"><span class="id" title="var">inster</span></span>-ing</h1>
+
+<a name="lab78"></a><h1 class="section">- A tuple-list of predicates we try inversion for</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">crush'</span> <span class="id" title="var">lemmas</span> <span class="id" title="var">invOne</span> :=<br/>
+&nbsp;&nbsp;</div>
+
+<div class="doc">
+A useful combination of standard automation 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">sintuition</span> := <span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> *; <span class="id" title="tactic">intuition</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">subst</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">simplHyp</span> <span class="id" title="var">invOne</span>; <span class="id" title="tactic">intuition</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">subst</span>); <span class="id" title="tactic">try</span> <span class="id" title="tactic">congruence</span> <span class="id" title="tactic">in</span><br/>
+<br/>
+&nbsp;&nbsp;</div>
+
+<div class="doc">
+A fancier version of <span class="inlinecode"><span class="id" title="var">rewriter</span></span> from above, which uses <span class="inlinecode"><span class="id" title="var">crush'</span></span> to discharge side conditions 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">rewriter</span> := <span class="id" title="tactic">autorewrite</span> <span class="id" title="keyword">with</span> <span class="id" title="var">core</span> <span class="id" title="tactic">in</span> *;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : ?<span class="id" title="var">P</span> |- <span class="id" title="var">_</span> ] =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">P</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="keyword">context</span>[<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Logic.JMeq.html#JMeq"><span class="id" title="inductive">JMeq</span></a>] =&gt; <span class="id" title="tactic">fail</span> 1 </div>
+
+<div class="doc">
+JMeq is too fancy to deal with here. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span> =&gt; <span class="id" title="tactic">rewrite</span> <span class="id" title="var">H</span> <span class="id" title="tactic">by</span> <span class="id" title="var">crush'</span> <span class="id" title="var">lemmas</span> <span class="id" title="var">invOne</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>; <span class="id" title="tactic">autorewrite</span> <span class="id" title="keyword">with</span> <span class="id" title="var">core</span> <span class="id" title="tactic">in</span> *) <span class="id" title="tactic">in</span><br/>
+<br/>
+&nbsp;&nbsp;</div>
+
+<div class="doc">
+Now the main sequence of heuristics: 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">sintuition</span>; <span class="id" title="var">rewriter</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">lemmas</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Datatypes.html#false"><span class="id" title="constructor">false</span></a> =&gt; <span class="id" title="tactic">idtac</span> </div>
+
+<div class="doc">
+No lemmas?  Nothing to do here 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+Try a loop of instantiating lemmas... 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> ((<span class="id" title="var">app</span> <span class="id" title="keyword">ltac</span>:(<span class="id" title="keyword">fun</span> <span class="id" title="var">L</span> =&gt; <span class="id" title="var">inster</span> <span class="id" title="var">L</span> <span class="id" title="var">L</span>) <span class="id" title="var">lemmas</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+...or instantiating hypotheses... 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|| <span class="id" title="var">appHyps</span> <span class="id" title="keyword">ltac</span>:(<span class="id" title="keyword">fun</span> <span class="id" title="var">L</span> =&gt; <span class="id" title="var">inster</span> <span class="id" title="var">L</span> <span class="id" title="var">L</span>));<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+...and then simplifying hypotheses. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">simplHyp</span> <span class="id" title="var">invOne</span>; <span class="id" title="tactic">intuition</span>)); <span class="id" title="var">un_done</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">sintuition</span>; <span class="id" title="var">rewriter</span>; <span class="id" title="var">sintuition</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+End with a last attempt to prove an arithmetic fact with <span class="inlinecode"><span class="id" title="tactic">omega</span></span>, or prove any sort of fact in a context that is contradictory by reasoning that <span class="inlinecode"><span class="id" title="tactic">omega</span></span> can do. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">try</span> <span class="id" title="tactic">omega</span>; <span class="id" title="tactic">try</span> (<span class="id" title="tactic">elimtype</span> <span class="id" title="var">False</span>; <span class="id" title="tactic">omega</span>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" title="var">crush</span></span> instantiates <span class="inlinecode"><span class="id" title="var">crush'</span></span> with the simplest possible parameters. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">crush</span> := <span class="id" title="var">crush'</span> <span class="id" title="var">false</span> <span class="id" title="tactic">fail</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab79"></a><h1 class="section">Wrap Program's <span class="inlinecode"><span class="id" title="tactic">dependent</span></span> <span class="inlinecode"><span class="id" title="tactic">destruction</span></span> in a slightly more pleasant form</h1>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Program.Equality.html#"><span class="id" title="library">Program.Equality</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Run <span class="inlinecode"><span class="id" title="tactic">dependent</span></span> <span class="inlinecode"><span class="id" title="tactic">destruction</span></span> on <span class="inlinecode"><a class="idref" href="CoqDSC.Environment.html#E"><span class="id" title="variable">E</span></a></span> and look for opportunities to simplify the result.
+   The weird introduction of <span class="inlinecode"><a class="idref" href="CoqDSC.LibTactics.html#x"><span class="id" title="variable">x</span></a></span> helps get around limitations of <span class="inlinecode"><span class="id" title="tactic">dependent</span></span> <span class="inlinecode"><span class="id" title="tactic">destruction</span></span>, in terms of which sorts of arguments it will accept (e.g., variables bound to hypotheses within Ltac <span class="inlinecode"><span class="id" title="keyword">match</span></span>es). 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">dep_destruct</span> <span class="id" title="var">E</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">x</span> := <span class="id" title="tactic">fresh</span> "x" <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">remember</span> <span class="id" title="var">E</span> <span class="id" title="keyword">as</span> <span class="id" title="var">x</span>; <span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> <span class="id" title="var">x</span>; <span class="id" title="tactic">dependent</span> <span class="id" title="tactic">destruction</span> <span class="id" title="var">x</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">try</span> <span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : <span class="id" title="var">_</span> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#1c39bf18749e5cc609e83c0a0ba5a372"><span class="id" title="notation">=</span></a> <span class="id" title="var">E</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="tactic">try</span> <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="var">H</span> <span class="id" title="tactic">in</span> *; <span class="id" title="tactic">clear</span> <span class="id" title="var">H</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Nuke all hypotheses that we can get away with, without invalidating the goal statement. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">clear_all</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="keyword">match</span> <span class="id" title="keyword">goal</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [ <span class="id" title="var">H</span> : <span class="id" title="var">_</span> |- <span class="id" title="var">_</span> ] =&gt; <span class="id" title="tactic">clear</span> <span class="id" title="var">H</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Instantiate a quantifier in a hypothesis <span class="inlinecode"><span class="id" title="var">H</span></span> with value <span class="inlinecode"><a class="idref" href="CoqDSC.LibTactics.html#v"><span class="id" title="variable">v</span></a></span>, or, if <span class="inlinecode"><a class="idref" href="CoqDSC.LibTactics.html#v"><span class="id" title="variable">v</span></a></span> doesn't have the right type, with a new unification variable.
+<a name="lab80"></a><h1 class="section">Also prove the lefthand sides of any implications that this exposes, simplifying <span class="inlinecode"><span class="id" title="var">H</span></span> to leave out those implications.</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">guess</span> <span class="id" title="var">v</span> <span class="id" title="var">H</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="keyword">match</span> <span class="id" title="keyword">type</span> <span class="id" title="keyword">of</span> <span class="id" title="var">H</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="keyword">forall</span> <span class="id" title="var">x</span> : ?<span class="id" title="var">T</span>, <span class="id" title="var">_</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="keyword">type</span> <span class="id" title="keyword">of</span> <span class="id" title="var">T</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="keyword">Prop</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">let</span> <span class="id" title="var">H'</span> := <span class="id" title="tactic">fresh</span> "H'" <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">H'</span> : <span class="id" title="var">T</span>); [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">solve</span> [ <span class="id" title="tactic">eauto</span> 6 ]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="tactic">specialize</span> (<span class="id" title="var">H</span> <span class="id" title="var">H'</span>); <span class="id" title="tactic">clear</span> <span class="id" title="var">H'</span> ])<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|| <span class="id" title="tactic">fail</span> 1<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">specialize</span> (<span class="id" title="var">H</span> <span class="id" title="var">v</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|| <span class="id" title="keyword">let</span> <span class="id" title="var">x</span> := <span class="id" title="tactic">fresh</span> "x" <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">evar</span> (<span class="id" title="var">x</span> : <span class="id" title="var">T</span>);<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">x'</span> := <span class="id" title="tactic">eval</span> <span class="id" title="tactic">unfold</span> <span class="id" title="var">x</span> <span class="id" title="tactic">in</span> <span class="id" title="var">x</span> <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">clear</span> <span class="id" title="var">x</span>; <span class="id" title="tactic">specialize</span> (<span class="id" title="var">H</span> <span class="id" title="var">x'</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Version of <span class="inlinecode"><span class="id" title="var">guess</span></span> that leaves the original <span class="inlinecode"><span class="id" title="var">H</span></span> intact 
+</div>
+<div class="code">
+<span class="id" title="keyword">Ltac</span> <span class="id" title="var">guessKeep</span> <span class="id" title="var">v</span> <span class="id" title="var">H</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">let</span> <span class="id" title="var">H'</span> := <span class="id" title="tactic">fresh</span> "H'" <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">generalize</span> <span class="id" title="var">H</span>; <span class="id" title="tactic">intro</span> <span class="id" title="var">H'</span>; <span class="id" title="var">guess</span> <span class="id" title="var">v</span> <span class="id" title="var">H'</span>.<br/>
+</div>
+    </div>
+    <div id="footer">
+      Generated by <a href="http://coq.inria.fr/">coqdoc</a> and improved with <a href="https://github.com/tebbi/coqdocjs">CoqdocJS</a>
+    </div>
+  </div>
+  </body>
+</html>
