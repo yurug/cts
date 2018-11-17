@@ -27,7 +27,7 @@ Tested with `cabal` 1.24.0.2.
 
 You should have two executables either in `.local/bin` or in `.cabal-sandbox/bin/`:
 
-- `graph-results`: Runs the full case study. Input sizes are hard-coded in `benchmark-src/GraphResults.hs`. Results will be found in `benchmark-results/map/indexedJoin.csv` for example. If you want to rerun the case study you have to delete or rename the `benchmark-results` folder.
+- `graph-results`: Runs the full case study. Input sizes are hard-coded in `benchmark-src/GraphResults.hs`. Timing results will be found in `benchmark-results/map/indexedJoin.csv` for example. Space results will be found in `benchmark-results/map/indexedJoin_space.csv` for example. If you want to rerun the case study you have to delete or rename the `benchmark-results` folder.
 
 - `generate`: Prints the generated code to stdout.
 

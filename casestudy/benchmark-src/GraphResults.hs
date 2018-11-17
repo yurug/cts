@@ -26,6 +26,8 @@ import Criterion.Main (
   defaultMainWith, defaultConfig, bench, whnf, env)
 import Criterion.Types (
   Config(csvFile, reportFile))
+import GHC.DataSize (
+  recursiveSize)
 import Control.DeepSeq (
   NFData(rnf))
 
@@ -88,6 +90,12 @@ main = do
   writeResults "sequence/nestedLoopOuter" sequenceSizes
 
   writeResults "sequence/nestedLoopInner" sequenceSizes
+
+  measureCacheSize "bag/average" bagSizes caverage initialBag
+
+  measureCacheSize "map/indexedJoin" mapSizes cindexedJoin initialTables
+
+  measureCacheSize "sequence/nestedLoop" sequenceSizes ccartesianProduct initialSequences
 
 
 configFile :: BenchmarkName -> Size -> Config
@@ -237,4 +245,31 @@ instance (NFData a, NFData b, NFData c, NFData d, NFData e, NFData f, NFData g,
                => NFData (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r) where
   rnf (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r) =
     rnf a `seq` rnf b `seq` rnf c `seq` rnf d `seq` rnf e `seq` rnf f `seq` rnf g `seq` rnf h `seq` rnf i `seq` rnf j `seq` rnf k `seq` rnf l `seq` rnf m `seq` rnf n `seq` rnf o `seq` rnf p `seq` rnf q `seq` rnf r
+
+
+benchmarkSpace :: [Size] -> (a -> (b, c)) -> (Size -> a) -> IO [SpaceMeasurement]
+benchmarkSpace sizes cf inputOfSize = forM sizes (\size -> do
+  let a = inputOfSize size
+      (_, c) = cf a
+  bytes <- recursiveSize $! c
+  return (SpaceMeasurement size bytes))
+
+
+data SpaceMeasurement = SpaceMeasurement {
+  spaceMeasurementSize :: Size,
+  spaceMeasurementBytes :: Word }
+
+instance ToNamedRecord SpaceMeasurement where
+  toNamedRecord (SpaceMeasurement {..}) = namedRecord [
+    "size" .= spaceMeasurementSize,
+    "bytes" .= spaceMeasurementBytes]
+
+measureCacheSize :: BenchmarkName -> [Size] -> (a -> (b, c)) -> (Size -> a) -> IO ()
+measureCacheSize name sizes cf inputOfSize = do
+  spaceMeasurements <- benchmarkSpace sizes cf inputOfSize
+  let spaceMeasurementPath = "benchmark-results/" ++ name ++ "_space.csv"
+  B.writeFile spaceMeasurementPath (encodeByName spaceMeasurementHeader spaceMeasurements)
+
+spaceMeasurementHeader :: Header
+spaceMeasurementHeader = Vector.fromList ["size", "bytes"]
 

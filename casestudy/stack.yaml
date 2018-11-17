@@ -2,6 +2,7 @@ resolver: lts-11.0
 extra-deps:
   - ghc-heap-view-0.5.10
   - criterion-1.4.0.0
+  - ghc-datasize-0.2.0
 flags:
   ghc-heap-view:
     ghc_8_0: false
