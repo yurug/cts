@@ -54,13 +54,13 @@ type BenchmarkName = String
 type Size = Int
 
 bagSizes :: [Size]
-bagSizes = [2 ^ k | k <- [0 .. 20]]
+bagSizes = [1, 11 .. 101]
 
 mapSizes :: [Size]
-mapSizes = [2 ^ k | k <- [0 .. 20]]
+mapSizes = [1, 11 .. 101]
 
 sequenceSizes :: [Size]
-sequenceSizes = [2 ^ k | k <- [0 .. 10]]
+sequenceSizes = [1, 11 .. 101]
 
 main :: IO ()
 main = do
