@@ -1,6 +1,6 @@
 # Supplementary material for "Incremental λ-Calculus in Cache-Transfer Style"
 
-The supplementary material contains two parts:
+The supplementary material contains three parts:
 
 - the formalized Coq proof, with pre-built documentation. Start by
   browsing the [online documentation](https://yurug.github.io/cts/) and/or
@@ -10,3 +10,5 @@ The supplementary material contains two parts:
 
 - the evaluation case studies and benchmarks, including raw data.
   Start at `casestudy/README.md`.
+
+- [the extended version of the paper](static-caching-extended.pdf).
